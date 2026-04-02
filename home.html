@@ -1,0 +1,15 @@
+<!-- client/templates/home.html -->
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="card shadow">
+    <div class="card-body text-center">
+        <h1 class="mb-4">Voter Verification System</h1>
+        <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg">
+            Get Started <i class="bi bi-arrow-right"></i>
+        </a>
+    </div>
+</div>
+{% endblock %}

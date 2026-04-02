@@ -1,0 +1,149 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="container">
+        <h2 class="my-4">Voter Management Panel</h2>
+        
+        <!-- Bulk Add Section -->
+        <div class="card mb-4 shadow">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Bulk Voter Registration</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('bulk_add_voters') }}">
+                    <div class="form-group">
+                        <label class="font-weight-bold">Data Format:</label>
+                        <div class="alert alert-secondary">
+                            <pre class="mb-0">
+VoterID, BoothLocation, Name, Age, Gender, Father's Name, 
+Address, Assembly Constituency, Parliamentary Constituency, 
+Polling Date (YYYY-MM-DD)
+
+Example:
+VOTER123,Booth-5,John Doe,35,Male,Michael Doe,123 Main St,
+AC-1,PC-5,2024-04-20</pre>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="font-weight-bold">Voter Data:</label>
+                        <textarea name="voter_data" 
+                                  class="form-control" 
+                                  rows="6"
+                                  placeholder="Paste voter data here..."
+                                  required></textarea>
+                    </div>
+                    
+                    <button type="submit" 
+                            class="btn btn-success btn-lg">
+                        <i class="fas fa-upload"></i> Bulk Upload
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Voter Search and List Section -->
+        <div class="card mb-4 shadow">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">Voter Database</h5>
+            </div>
+            <div class="card-body">
+                <!-- Search Form -->
+                <form method="GET" action="{{ url_for('show_all_data') }}">
+                    <div class="input-group mb-4">
+                        <input type="text" 
+                               name="search" 
+                               class="form-control form-control-lg"
+                               placeholder="Search by Voter ID..."
+                               value="{{ request.args.get('search', '') }}">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-primary" 
+                                    type="submit">
+                                <i class="fas fa-search"></i> Search
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Voter Table -->
+                {% if voters %}
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Voter ID</th>
+                                    <th>Name</th>
+                                    <th>Booth Location</th>
+                                    <th>Constituency</th>
+                                    <th>Polling Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for voter in voters %}
+                                    <tr>
+                                        <td>{{ voter.voter_id }}</td>
+                                        <td>{{ voter.name }}</td>
+                                        <td>{{ voter.booth_location }}</td>
+                                        <td>
+                                            {{ voter.assembly_constituency }}<br>
+                                            <small class="text-muted">
+                                                {{ voter.parliamentary_constituency }}
+                                            </small>
+                                        </td>
+                                        <td>{{ voter.polling_date.strftime('%d %b %Y') }}</td>
+                                        <td>
+                                            <form method="POST" 
+                                                  action="{{ url_for('delete_voter', voter_id=voter.voter_id) }}"
+                                                  onsubmit="return confirm('Permanently delete this voter record?');">
+                                                <button type="submit" 
+                                                        class="btn btn-danger btn-sm">
+                                                    <i class="fas fa-trash"></i> Delete
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="alert alert-warning">
+                        No voters found in the database
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Danger Zone Section -->
+        <div class="card border-danger mb-4 shadow">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0">Danger Zone</h5>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-danger">
+                    <h5 class="alert-heading">
+                        <i class="fas fa-exclamation-triangle"></i> 
+                        Warning!
+                    </h5>
+                    These actions are irreversible. Proceed with extreme caution.
+                </div>
+
+                <!-- Delete All Form -->
+                <form method="POST" 
+                      action="{{ url_for('delete_all_data') }}"
+                      onsubmit="return confirm('This will DELETE ALL VOTERS! Are you absolutely sure?');">
+                    <button type="submit" 
+                            class="btn btn-danger btn-lg">
+                        <i class="fas fa-skull-crossbones"></i> 
+                        Delete All Voters
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <a href="{{ url_for('admin_dashboard') }}" 
+           class="btn btn-secondary mb-4">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+    </div>
+{% endblock %}

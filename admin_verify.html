@@ -1,0 +1,20 @@
+<!-- client/templates/admin_verify.html -->
+{% extends "base.html" %}
+
+{% block title %}Admin Verification{% endblock %}
+
+{% block content %}
+<div class="card shadow mx-auto" style="max-width: 400px;">
+    <div class="card-body">
+        <h2 class="mb-4">Admin Verification</h2>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <div class="mb-3">
+                {{ form.key.label(class="form-label") }}
+                {{ form.key(class="form-control") }}
+            </div>
+            <button type="submit" class="btn btn-warning w-100">Verify Admin Key</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

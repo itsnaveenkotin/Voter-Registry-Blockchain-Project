@@ -1,0 +1,32 @@
+<!-- templates/login.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card hover-shadow-lg">
+                <div class="card-header bg-primary text-white py-3">
+                    <h4 class="mb-0 fw-semibold"><i class="bi bi-key me-2"></i>User Login</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="">
+                        {{ form.hidden_tag() }}
+                        <div class="form-group">
+                            {{ form.email.label(class="form-control-label") }}
+                            {{ form.email(class="form-control rounded-pill px-3") }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.password.label(class="form-control-label") }}
+                            {{ form.password(class="form-control") }}
+                        </div>
+                        <div class="form-group mt-4">
+                            {{ form.submit(class="btn btn-primary w-100 rounded-pill py-2") }}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

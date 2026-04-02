@@ -1,0 +1,51 @@
+:root {
+  --primary: #2c3e50;
+  --secondary: #3498db;
+  --success: #27ae60;
+  --warning: #f1c40f;
+  --light: #ecf0f1;
+  --dark: #2c3e50;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system;
+  line-height: 1.6;
+  color: var(--dark);
+}
+
+.navbar {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  backdrop-filter: blur(8px);
+  background: rgba(255,255,255,0.95);
+}
+
+.card {
+  border: none;
+  border-radius: 1rem;
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+.btn {
+  letter-spacing: 0.025em;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  transition: var(--transition);
+}
+
+.alert {
+  border: none;
+  border-left: 4px solid currentColor;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .fade-in {
+    animation: fadeIn 0.4s ease-out;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

@@ -1,0 +1,19 @@
+<!-- templates/admin_dashboard.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card border-0 shadow-lg hover-shadow-xl">
+        <div class="card-header bg-gradient-primary text-white py-3">
+            <h4 class="mb-0 fw-semibold"><i class="bi bi-speedometer2 me-2"></i>Admin Dashboard</h4>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-success d-flex align-items-center rounded-pill px-4">
+                <i class="bi bi-star-fill me-3 fs-5"></i>
+                <div class="fw-medium">Welcome, Admin! You have special privileges.</div>
+            </div>
+            <!-- Add admin-specific content here -->
+        </div>
+    </div>
+</div>
+{% endblock %}

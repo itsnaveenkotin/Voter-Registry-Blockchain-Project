@@ -1,0 +1,89 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="card mb-4 shadow">
+    <div class="card-body">
+        <h2 class="mb-4">Voter Verification</h2>
+        
+        <!-- Verification Form -->
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <div class="form-group mb-3">
+                {{ form.voter_id.label(class="form-label") }}
+                {{ form.voter_id(class="form-control") }}
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Verify</button>
+        </form>
+
+        {% if result %}
+        <!-- Verification Results -->
+        <div class="mt-4" id="verification-details">
+            <div class="card border-success">
+                <div class="card-header bg-success text-white">
+                    Voter Verification Details
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>Name:</strong> {{ result.name }}</li>
+                    <li class="list-group-item"><strong>Age:</strong> {{ result.age }}</li>
+                    <li class="list-group-item"><strong>Gender:</strong> {{ result.gender }}</li>
+                    <li class="list-group-item"><strong>Father's Name:</strong> {{ result.fathers_name }}</li>
+                    <li class="list-group-item"><strong>Address:</strong> {{ result.address }}</li>
+                    <li class="list-group-item"><strong>Booth Location:</strong> {{ result.booth_location }}</li>
+                    <li class="list-group-item"><strong>Assembly Constituency:</strong> {{ result.assembly_constituency }}</li>
+                    <li class="list-group-item"><strong>Parliamentary Constituency:</strong> {{ result.parliamentary_constituency }}</li>
+                    <li class="list-group-item"><strong>Polling Date:</strong> {{ result.polling_date }}</li>
+                </ul>
+            </div>
+        </div>
+        <!-- Print Button -->
+        <button onclick="printDetails()" class="btn btn-secondary mt-3">Print Details</button>
+        
+        <!-- Download as PDF Button -->
+        <button onclick="downloadAsPDF()" class="btn btn-secondary mt-3">Download as PDF</button>
+        {% endif %}
+    </div>
+</div>
+
+<a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary mt-3">Back to Admin Dashboard</a>
+
+<!-- Include jsPDF library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+    function printDetails() {
+        var printContent = document.getElementById("verification-details").innerHTML;
+        var originalContent = document.body.innerHTML;
+        
+        document.body.innerHTML = printContent;  // Replace the body with the content to print
+        window.print();  // Trigger the print dialog
+        
+        document.body.innerHTML = originalContent;  // Restore the original body content after printing
+    }
+
+    function downloadAsPDF() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        // Collect the voter verification details
+        var resultText = `
+            Voter Verification Details\n
+            ----------------------------\n
+            Name: {{ result.name }}\n
+            Age: {{ result.age }}\n
+            Gender: {{ result.gender }}\n
+            Father's Name: {{ result.fathers_name }}\n
+            Address: {{ result.address }}\n
+            Booth Location: {{ result.booth_location }}\n
+            Assembly Constituency: {{ result.assembly_constituency }}\n
+            Parliamentary Constituency: {{ result.parliamentary_constituency }}\n
+            Polling Date: {{ result.polling_date }}\n
+        `;
+
+        // Add the result text to the PDF document
+        doc.text(resultText, 10, 10);
+        
+        // Save the PDF with the filename 'voter_verification_details.pdf'
+        doc.save('voter_verification_details.pdf');
+    }
+</script>
+
+{% endblock %}

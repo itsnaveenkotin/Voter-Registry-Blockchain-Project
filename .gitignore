@@ -1,0 +1,12 @@
+# Ignore Python files
+*.pyc
+__pycache__/
+blockchain.json
+
+
+# Ignore build artifacts
+build/
+
+# Ignore environment files
+.env
+.qodo

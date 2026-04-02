@@ -1,0 +1,46 @@
+<!-- client/templates/signup.html -->
+{% extends "layout.html" %}
+
+{% block title %}User Registration{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0"><i class="bi bi-person-plus"></i> New User Registration</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('signup') }}">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="mb-3">
+                        {{ form.email.label(class="form-label") }}
+                        {{ form.email(class="form-control", placeholder="Enter valid email") }}
+                        {% for error in form.email.errors %}
+                            <div class="invalid-feedback d-block">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.password.label(class="form-label") }}
+                        {{ form.password(class="form-control", placeholder="Minimum 8 characters") }}
+                        {% for error in form.password.errors %}
+                            <div class="invalid-feedback d-block">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success btn-lg">
+                            <i class="bi bi-person-check"></i> Create Account
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-center">
+                <small>Already registered? <a href="{{ url_for('login') }}">Login here</a></small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
